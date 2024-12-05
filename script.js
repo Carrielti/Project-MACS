@@ -1,5 +1,5 @@
 const openWeatherApiKey = '9661f12cba9fe4f556aaaf8bab565237';
-const esp32Endpoint = 'http://192.168.1.117/arduino-data'; 
+const esp32Endpoint = 'http://192.168.191.128/arduino-data'; 
 
 // Função para obter localização e dados climáticos
 function getWeatherData() {
@@ -42,7 +42,7 @@ function atualizarStatus() {
     const probChuva = parseFloat(document.getElementById('probabilidade-chuva').value || 0);
 
     let status = 'Ambiente favorável ao cultivo';
-    if (umidade < 40 || tempSolo < 10 || tempAmbiente < 15 || probChuva > 80) {
+    if (umidade < 60 || tempSolo < 10 || tempAmbiente < 15 || probChuva > 80) {
         status = 'Ambiente desfavorável ao cultivo';
     }
 

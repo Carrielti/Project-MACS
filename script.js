@@ -42,7 +42,7 @@ function atualizarStatus() {
     const probChuva = parseFloat(document.getElementById('probabilidade-chuva').value || 0);
 
     let status = 'Ambiente favorável ao cultivo';
-    if (umidade < 60 || tempSolo < 10 || tempAmbiente < 15 || probChuva > 80) {
+    if (umidade < 40 || tempSolo < 10 || tempAmbiente < 15 || probChuva > 80) {
         status = 'Ambiente desfavorável ao cultivo';
     }
 

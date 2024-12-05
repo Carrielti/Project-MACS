@@ -1,5 +1,5 @@
 const openWeatherApiKey = '9661f12cba9fe4f556aaaf8bab565237';
-const esp32Endpoint = 'http://192.168.191.128/arduino-data'; 
+const esp32Endpoint = 'http://10.172.181.110/arduino-data'; 
 
 // Função para obter localização e dados climáticos
 function getWeatherData() {

@@ -1,5 +1,5 @@
 const openWeatherApiKey = '9661f12cba9fe4f556aaaf8bab565237';
-const esp32Endpoint = 'http://192.168.191.128/arduino-data'; 
+const esp32Endpoint = 'http://192.168.191.128/arduino-data';
 
 // Função para obter localização e dados climáticos
 function getWeatherData() {
@@ -8,11 +8,12 @@ function getWeatherData() {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
 
-             fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=pt_br&appid=${openWeatherApiKey}`)
+            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=pt_br&appid=${openWeatherApiKey}`)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('temperatura-ambiente').value = data.main.temp;
-                    document.getElementById('probabilidade-chuva').value = data.clouds.all; // Percentual de nuvens como probabilidade de chuva
+                    // Atualiza os valores com unidades
+                    document.getElementById('temperatura-ambiente').value = `${data.main.temp} °C`;
+                    document.getElementById('probabilidade-chuva').value = `${data.clouds.all} %`; // Percentual de nuvens como probabilidade de chuva
                     atualizarStatus();
                 })
                 .catch(err => console.error('Erro ao obter dados do clima:', err));
@@ -27,8 +28,9 @@ function getArduinoData() {
     fetch(esp32Endpoint)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('umidade').value = data.umidade;
-            document.getElementById('temperatura-solo').value = data.temperatura;
+            // Atualiza os valores com unidades
+            document.getElementById('umidade').value = `${data.umidade} %`;
+            document.getElementById('temperatura-solo').value = `${data.temperatura} °C`;
             atualizarStatus();
         })
         .catch(err => console.error('Erro ao obter dados da ESP32:', err));
@@ -36,10 +38,10 @@ function getArduinoData() {
 
 // Função para atualizar o status do ambiente
 function atualizarStatus() {
-    const umidade = parseFloat(document.getElementById('umidade').value || 0);
-    const tempSolo = parseFloat(document.getElementById('temperatura-solo').value || 0);
-    const tempAmbiente = parseFloat(document.getElementById('temperatura-ambiente').value || 0);
-    const probChuva = parseFloat(document.getElementById('probabilidade-chuva').value || 0);
+    const umidade = parseFloat((document.getElementById('umidade').value || '0').replace(' %', ''));
+    const tempSolo = parseFloat((document.getElementById('temperatura-solo').value || '0').replace(' °C', ''));
+    const tempAmbiente = parseFloat((document.getElementById('temperatura-ambiente').value || '0').replace(' °C', ''));
+    const probChuva = parseFloat((document.getElementById('probabilidade-chuva').value || '0').replace(' %', ''));
 
     let status = 'Ambiente favorável ao cultivo';
     if (umidade < 60 || tempSolo < 10 || tempAmbiente < 15 || probChuva > 80) {
